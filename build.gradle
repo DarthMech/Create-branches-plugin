@@ -1,0 +1,73 @@
+buildscript {
+    ext.kotlin_version = '1.2.71'
+    ext.spec2_version = '2.0.0-alpha.1'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.2.71"
+    id "org.jetbrains.intellij" version "0.3.11"
+}
+
+group 'docdocbranches'
+version '1.0.3'
+
+patchPluginXml {
+    changeNotes """
+      Add change notes here.<br>
+      <em>Example</em>"""
+}
+
+intellij {
+    version '2018.1.2' //for a full list of IntelliJ IDEA releases please see https://www.jetbrains.com/intellij-repository/releases
+    plugins = ['android', 'git4idea']
+    pluginName = 'Branches creator'
+    intellij.updateSinceUntilBuild false
+}
+
+test {
+    useJUnitPlatform {
+        includeEngines 'spek2'
+    }
+}
+
+compileKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = ['-Xskip-metadata-version-check']
+    }
+}
+
+compileTestKotlin {
+    kotlinOptions {
+        jvmTarget = "1.8"
+        freeCompilerArgs = ['-Xskip-metadata-version-check']
+    }
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://dl.bintray.com/spekframework/spek-dev" }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-test"
+
+    testImplementation ("org.spekframework.spek2:spek-dsl-jvm:$spec2_version")  {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+    testRuntimeOnly ("org.spekframework.spek2:spek-runner-junit5:$spec2_version") {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+
+    // spek requires kotlin-reflect, can be omitted if already in the classpath
+    testRuntimeOnly "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+}

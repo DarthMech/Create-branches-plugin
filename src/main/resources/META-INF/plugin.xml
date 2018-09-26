@@ -1,0 +1,85 @@
+<idea-plugin>
+    <id>com.docdoc.plugin.branches</id>
+    <name>Branches generate</name>
+    <vendor email="support@yourcompany.com" url="www.docdoc.com">DocDoc</vendor>
+
+    <description><![CDATA[
+    Enter short description for your plugin here.<br>
+    <em>most HTML tags may be used</em>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Empty
+    ]]>
+    </change-notes>
+
+    <version>1.0.0</version>
+    <category>VCS</category>
+
+    <depends>Git4Idea</depends>
+
+    <project-components>
+        <component>
+            <implementation-class>com.docdoc.plugin.branches.components.BranchesComponent</implementation-class>
+        </component>
+    </project-components>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceInterface="com.docdoc.plugin.branches.services.ExtensionGit"
+                            serviceImplementation="com.docdoc.plugin.branches.services.ExtensionGitImpl"/>
+    </extensions>
+
+    <actions>
+        <action class="com.docdoc.plugin.branches.actions.CreateFeatureBranchAction"
+                id="Branches.CreateFeatureBranchAction"
+                text="Feature"
+                description="Create feature branch"/>
+
+        <action class="com.docdoc.plugin.branches.actions.CreateFixBranchAction"
+                id="Branches.CreateFixBranchAction"
+                text="HotFix"
+                description="Create fix branch"/>
+
+        <!-- VCS Git menu -->
+        <group id="Branches.Menu" popup="true" text="_DocDoc">
+            <reference id="Branches.CreateFeatureBranchAction"/>
+            <reference id="Branches.CreateFixBranchAction"/>
+
+            <add-to-group group-id="Git.Menu" anchor="before" relative-to-action="GitRepositoryActions"/>
+        </group>
+
+        <group id="Branches.Separator" >
+            <separator/>
+            <add-to-group group-id="Git.Menu" anchor="after" relative-to-action="Branches.Menu"/>
+            <add-to-group group-id="Git.ContextMenu" anchor="last"/>
+        </group>
+
+        <!-- VCS Git Context menu -->
+        <group id="Branches.ContextMenu" popup="true" text="_DocDoc">
+            <reference id="Branches.CreateFeatureBranchAction"/>
+            <reference id="Branches.CreateFixBranchAction"/>
+
+            <add-to-group group-id="Git.ContextMenu" anchor="last"/>
+        </group>
+
+        <group id="Branches.ContextMenu2" popup="true" text="_DocDoc">
+            <reference id="Branches.CreateFeatureBranchAction"/>
+            <reference id="Branches.CreateFixBranchAction"/>
+
+            <add-to-group group-id="Vcs.Specific" anchor="last"/>
+        </group>
+
+        <!-- VCS Quick menu -->
+        <group id="Branches.Operations.Separator" >
+            <separator text="DocDoc"/>
+            <add-to-group group-id="Vcs.Operations.Popup" anchor="last"/>
+        </group>
+
+        <group id="Branches.Operations.Menu">
+            <reference id="Branches.CreateFeatureBranchAction"/>
+            <reference id="Branches.CreateFixBranchAction"/>
+
+            <add-to-group group-id="Vcs.Operations.Popup" anchor="last"/>
+        </group>
+    </actions>
+</idea-plugin>
