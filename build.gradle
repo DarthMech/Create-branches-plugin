@@ -17,12 +17,14 @@ plugins {
 }
 
 group 'docdocbranches'
-version '1.0.3'
+version '1.0.4'
 
 patchPluginXml {
     changeNotes """
       Add change notes here.<br>
       <em>Example</em>"""
+
+    version project.version
 }
 
 intellij {

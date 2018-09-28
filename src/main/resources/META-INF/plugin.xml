@@ -1,19 +1,14 @@
 <idea-plugin>
     <id>com.docdoc.plugin.branches</id>
-    <name>Branches generate</name>
-    <vendor email="support@yourcompany.com" url="www.docdoc.com">DocDoc</vendor>
+    <name>DocDoc branches generator</name>
+    <vendor email="info@docdoc.ru" url="https://docdoc.ru">DocDoc</vendor>
 
-    <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
-    ]]></description>
+    <description>
+        <![CDATA[
+            Плагин позволяет создавать ветки для гитфлоу по заданному шаблону.<br>
+        ]]>
+    </description>
 
-    <change-notes><![CDATA[
-      Empty
-    ]]>
-    </change-notes>
-
-    <version>1.0.0</version>
     <category>VCS</category>
 
     <depends>Git4Idea</depends>
@@ -48,7 +43,7 @@
             <add-to-group group-id="Git.Menu" anchor="before" relative-to-action="GitRepositoryActions"/>
         </group>
 
-        <group id="Branches.Separator" >
+        <group id="Branches.Separator">
             <separator/>
             <add-to-group group-id="Git.Menu" anchor="after" relative-to-action="Branches.Menu"/>
             <add-to-group group-id="Git.ContextMenu" anchor="last"/>
@@ -70,7 +65,7 @@
         </group>
 
         <!-- VCS Quick menu -->
-        <group id="Branches.Operations.Separator" >
+        <group id="Branches.Operations.Separator">
             <separator text="DocDoc"/>
             <add-to-group group-id="Vcs.Operations.Popup" anchor="last"/>
         </group>
@@ -82,4 +77,5 @@
             <add-to-group group-id="Vcs.Operations.Popup" anchor="last"/>
         </group>
     </actions>
+
 </idea-plugin>
