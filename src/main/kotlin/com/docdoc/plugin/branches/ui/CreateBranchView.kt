@@ -5,8 +5,7 @@ import com.intellij.ui.layout.panel
 import java.awt.Dimension
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
-import javax.swing.JLabel
-import javax.swing.JTextField
+import javax.swing.*
 
 class CreateBranchView(branchType: String)  {
 
@@ -17,10 +16,10 @@ class CreateBranchView(branchType: String)  {
     private val labelTextField = JTextField("")
 
     val mainPanel = panel {
-        noteRow("$branchType/DD-{ID}/{Label}")
-        row("ID: ") { idTextField(CCFlags.grow, CCFlags.push) }
-        row("Label:") { labelTextField(CCFlags.grow, CCFlags.push) }
-        row{branchNameLabel(CCFlags.grow, CCFlags.push)}
+        row("$branchType/DD-{ID}/{Label}") {}
+        row("ID: ") { idTextField(CCFlags.pushX, CCFlags.push) }
+        row("Label: ") { labelTextField(CCFlags.grow, CCFlags.push) }
+        row { branchNameLabel(CCFlags.grow, CCFlags.push) }
     }
 
     private val listener =  object : KeyListener {
