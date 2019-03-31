@@ -23,6 +23,8 @@ patchPluginXml {
     changeNotes """
       Add change notes here.<br>
       <em>Example</em>"""
+
+    version project.version
 }
 
 intellij {
