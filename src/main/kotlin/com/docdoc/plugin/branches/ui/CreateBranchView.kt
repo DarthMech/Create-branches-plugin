@@ -1,5 +1,6 @@
 package com.docdoc.plugin.branches.ui
 
+import com.intellij.openapi.ui.ComboBox
 import com.intellij.ui.layout.CCFlags
 import com.intellij.ui.layout.panel
 import java.awt.Dimension
@@ -12,13 +13,16 @@ class CreateBranchView(branchType: String)  {
     private val presenter: CreateBranchPresenter = CreateBranchPresenter(branchType)
 
     val idTextField = JTextField("")
-    private val branchNameLabel = JLabel("${presenter.branchType}/DD-/")
+    private val exampleLabel = JLabel("${presenter.branchType}/MOB-/")
+    private val branchNameLabel = JLabel("${presenter.branchType}/MOB-/")
     private val labelTextField = JTextField("")
+    private val projectTypeComboBox = ComboBox(arrayOf("MOB", "DD", "OP"))
 
     val mainPanel = panel {
-        row("$branchType/DD-{ID}/{Label}") {}
-        row("ID: ") { idTextField(CCFlags.pushX, CCFlags.push) }
-        row("Label: ") { labelTextField(CCFlags.grow, CCFlags.push) }
+        row { exampleLabel(CCFlags.grow, CCFlags.push) }
+        row(JLabel("Project: ")) { projectTypeComboBox(CCFlags.grow, CCFlags.push) }
+        row(JLabel("ID: ")) { idTextField(CCFlags.pushX, CCFlags.push) }
+        row(JLabel("Label: ")) { labelTextField(CCFlags.grow, CCFlags.push) }
         row { branchNameLabel(CCFlags.grow, CCFlags.push) }
     }
 
@@ -35,9 +39,18 @@ class CreateBranchView(branchType: String)  {
     init {
         mainPanel.preferredSize = Dimension(400, 100)
 
+        projectTypeComboBox.addActionListener {
+            exampleLabel.text = "${presenter.branchType}/${projectTypeComboBox.selectedItem as String}-/"
+            branchNameLabel.text = getBranchName()
+        }
+
         idTextField.addKeyListener(listener)
         labelTextField.addKeyListener(listener)
     }
 
-    fun getBranchName() = presenter.getBranchName(idTextField.text, labelTextField.text)
+    fun getBranchName() = presenter.getBranchName(
+            projectTypeComboBox.selectedItem as String,
+            idTextField.text,
+            labelTextField.text
+    )
 }
