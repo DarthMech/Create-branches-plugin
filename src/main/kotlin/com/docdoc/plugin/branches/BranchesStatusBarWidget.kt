@@ -2,6 +2,7 @@ package com.docdoc.plugin.branches
 
 import com.docdoc.plugin.branches.actions.CreateFeatureBranchAction
 import com.docdoc.plugin.branches.actions.CreateFixBranchAction
+import com.docdoc.plugin.branches.actions.CreateReleaseBranchAction
 import com.intellij.openapi.actionSystem.ActionGroup
 import com.intellij.openapi.actionSystem.DefaultActionGroup
 import com.intellij.openapi.actionSystem.impl.SimpleDataContext
@@ -14,15 +15,12 @@ import com.intellij.util.Consumer
 import java.awt.event.MouseEvent
 
 class BranchesStatusBarWidget(private val project: Project) : StatusBarWidget {
-    private var presentation: BranchesWidgetPresentation? = null
-    private var statusBar: StatusBar? = null
 
-    private var labelText = "DocDoc"
-    private val toolTip = "Создать ветки"
+    private var presentation: BranchesWidgetPresentation? = null
 
     override fun ID(): String = BranchesStatusBarWidget::class.java.name
 
-    override fun getPresentation(type: StatusBarWidget.PlatformType): StatusBarWidget.WidgetPresentation {
+    override fun getPresentation(): StatusBarWidget.WidgetPresentation {
         if (presentation == null) {
             presentation = BranchesWidgetPresentation()
         }
@@ -30,8 +28,8 @@ class BranchesStatusBarWidget(private val project: Project) : StatusBarWidget {
         return presentation!!
     }
 
+
     override fun install(statusBar: StatusBar) {
-        this.statusBar = statusBar
     }
 
     override fun dispose() {
@@ -39,7 +37,8 @@ class BranchesStatusBarWidget(private val project: Project) : StatusBarWidget {
 
     // ------------------------------------------- inner methods ------------------------------------------------------
     private fun getWidgetPopupStep(): ListPopup {
-        return PopupFactoryImpl.ActionGroupPopup("Menu",
+        return PopupFactoryImpl.ActionGroupPopup(
+                "Menu",
                 getActions(),
                 SimpleDataContext.getProjectContext(project),
                 false,
@@ -47,38 +46,38 @@ class BranchesStatusBarWidget(private val project: Project) : StatusBarWidget {
                 true,
                 true,
                 null,
-                -1,
+                3,
                 null,
-                null)
+                null
+        )
     }
 
     private fun getActions(): ActionGroup {
+
         val group = DefaultActionGroup()
-        group.add(CreateFeatureBranchAction())
-        group.add(CreateFixBranchAction())
+        group.add(CreateFeatureBranchAction().apply {
+            templatePresentation.text = "Feature"
+        })
+        group.add(CreateFixBranchAction().apply {
+            templatePresentation.text = "HotFix"
+        })
+        group.add(CreateReleaseBranchAction().apply {
+            templatePresentation.text = "Release"
+        })
         return group
+
     }
 
     private inner class BranchesWidgetPresentation : StatusBarWidget.MultipleTextValuesPresentation {
-        override fun getPopupStep(): ListPopup? {
-            return getWidgetPopupStep()
-        }
+        override fun getPopupStep(): ListPopup = getWidgetPopupStep()
 
-        override fun getSelectedValue(): String? {
-            return labelText
-        }
+        override fun getShortcutText(): String? = null
 
-        override fun getTooltipText(): String? {
-            return toolTip
-        }
+        override fun getSelectedValue(): String = "Create branch"
 
-        // ------------------------------------
-        override fun getMaxValue(): String {
-            return ""
-        }
+        override fun getTooltipText(): String = "Создать ветку по заданному шабллону"
 
-        override fun getClickConsumer(): Consumer<MouseEvent>? {
-            return null
-        }
+        override fun getClickConsumer(): Consumer<MouseEvent>? = null
     }
+
 }

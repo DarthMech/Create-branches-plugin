@@ -2,10 +2,9 @@ package com.docdoc.plugin.branches.ui
 
 import com.docdoc.plugin.branches.actions.BranchesType
 
-import org.junit.Assert.assertEquals
-
 import org.spekframework.spek2.Spek
 import org.spekframework.spek2.style.gherkin.Feature
+import kotlin.test.assertEquals
 
 object CreateBranchPresenterSpekTest : Spek({
     Feature("Test feature branch") {
@@ -17,7 +16,7 @@ object CreateBranchPresenterSpekTest : Spek({
             }
 
             Then("empty branch name") {
-                val name = presenter.getBranchName("", "")
+                val name = presenter.getBranchName("", "", "")
                 assertEquals("feature/DD-/", name)
             }
         }
@@ -32,7 +31,7 @@ object CreateBranchPresenterSpekTest : Spek({
             }
 
             Then("empty branch name") {
-                val name = presenter.getBranchName("", "")
+                val name = presenter.getBranchName("", "", "")
                 assertEquals("fix/DD-/", name)
             }
         }

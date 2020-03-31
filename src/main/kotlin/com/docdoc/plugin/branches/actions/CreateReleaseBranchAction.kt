@@ -1,19 +1,18 @@
 package com.docdoc.plugin.branches.actions
 
 import com.docdoc.plugin.branches.services.ExtensionGit
-import com.docdoc.plugin.branches.ui.CreateBranchView
+import com.docdoc.plugin.branches.ui.release.CreateReleaseBranchView
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.ui.DialogBuilder
 import git4idea.branch.GitBranchUtil
 
-open class BaseBranchAction(private val branchType: String) : GitAction() {
-
+class CreateReleaseBranchAction : BaseBranchAction(BranchesType.RELEASE) {
     override fun actionPerformed(event: AnActionEvent) {
-        val view = CreateBranchView(branchType)
+        val view = CreateReleaseBranchView()
 
         val builder = DialogBuilder()
-        builder.setTitle("Создать новую ветку")
+        builder.setTitle("Создать рилизную ветку")
         builder.setCenterPanel(view.mainPanel)
         builder.setPreferredFocusComponent(view.idTextField)
 
@@ -21,7 +20,7 @@ open class BaseBranchAction(private val branchType: String) : GitAction() {
         if (exitCode == 0) {
             val repo = GitBranchUtil.getCurrentRepository(event.project!!)
             val service = ServiceManager.getService(ExtensionGit::class.java)
-            service.checkoutNewBranch(repo!!, view.getBranchName(), null, null)
+            service.checkoutNewBranch(repo!!, "", null, null)
             repo.update()
         }
     }

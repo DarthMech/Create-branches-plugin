@@ -16,15 +16,7 @@ abstract class GitAction : DumbAwareAction() {
             return
         }
 
-        presentation.isEnabled = isEnabled(e)
+        presentation.isEnabled = true
     }
 
-    /**
-     * Checks if this action should be enabled.
-     * Called in [.update], so don't execute long tasks here.
-     * @return true if the action is enabled.
-     */
-    protected fun isEnabled(event: AnActionEvent): Boolean {
-        return true
-    }
 }

@@ -1,11 +1,11 @@
 <idea-plugin>
-    <id>com.docdoc.plugin.branches</id>
-    <name>DocDoc branches generator</name>
-    <vendor email="info@docdoc.ru" url="https://docdoc.ru">DocDoc</vendor>
+    <id>mech.plugin.branches</id>
+    <name>Branches generator</name>
+    <vendor>Mech</vendor>
 
     <description>
         <![CDATA[
-            Плагин позволяет создавать ветки для гитфлоу по заданному шаблону.<br>
+            Плагин позволяет создавать ветки по заданному шаблону.<br>
         ]]>
     </description>
 
@@ -22,23 +22,31 @@
     <extensions defaultExtensionNs="com.intellij">
         <applicationService serviceInterface="com.docdoc.plugin.branches.services.ExtensionGit"
                             serviceImplementation="com.docdoc.plugin.branches.services.ExtensionGitImpl"/>
+
+        <statusBarWidgetProvider implementation="com.docdoc.plugin.branches.BranchesStatusBarWidgetProvider" />
     </extensions>
 
     <actions>
         <action class="com.docdoc.plugin.branches.actions.CreateFeatureBranchAction"
                 id="Branches.CreateFeatureBranchAction"
-                text="Feature"
+                text="_Feature"
                 description="Create feature branch"/>
 
         <action class="com.docdoc.plugin.branches.actions.CreateFixBranchAction"
                 id="Branches.CreateFixBranchAction"
-                text="HotFix"
+                text="_BugFixes"
                 description="Create fix branch"/>
 
+        <action class="com.docdoc.plugin.branches.actions.CreateReleaseBranchAction"
+                id="Branches.CreateReleaseBranchAction"
+                text="_Release"
+                description="Create release branch"/>
+
         <!-- VCS Git menu -->
-        <group id="Branches.Menu" popup="true" text="_DocDoc">
+        <group id="Branches.Menu" popup="true" text="Create _Branch">
             <reference id="Branches.CreateFeatureBranchAction"/>
             <reference id="Branches.CreateFixBranchAction"/>
+            <reference id="Branches.CreateReleaseBranchAction"/>
 
             <add-to-group group-id="Git.Menu" anchor="before" relative-to-action="GitRepositoryActions"/>
         </group>
@@ -50,29 +58,32 @@
         </group>
 
         <!-- VCS Git Context menu -->
-        <group id="Branches.ContextMenu" popup="true" text="_DocDoc">
+        <group id="Branches.ContextMenu" popup="true" text="Create _Branch">
             <reference id="Branches.CreateFeatureBranchAction"/>
             <reference id="Branches.CreateFixBranchAction"/>
+            <reference id="Branches.CreateReleaseBranchAction"/>
 
             <add-to-group group-id="Git.ContextMenu" anchor="last"/>
         </group>
 
-        <group id="Branches.ContextMenu2" popup="true" text="_DocDoc">
+        <group id="Branches.ContextMenu2" popup="true" text="Create _Branch">
             <reference id="Branches.CreateFeatureBranchAction"/>
             <reference id="Branches.CreateFixBranchAction"/>
+            <reference id="Branches.CreateReleaseBranchAction"/>
 
             <add-to-group group-id="Vcs.Specific" anchor="last"/>
         </group>
 
         <!-- VCS Quick menu -->
         <group id="Branches.Operations.Separator">
-            <separator text="DocDoc"/>
+            <separator text="Create Branch"/>
             <add-to-group group-id="Vcs.Operations.Popup" anchor="last"/>
         </group>
 
         <group id="Branches.Operations.Menu">
             <reference id="Branches.CreateFeatureBranchAction"/>
             <reference id="Branches.CreateFixBranchAction"/>
+            <reference id="Branches.CreateReleaseBranchAction"/>
 
             <add-to-group group-id="Vcs.Operations.Popup" anchor="last"/>
         </group>

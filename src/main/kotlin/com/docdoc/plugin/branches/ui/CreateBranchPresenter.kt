@@ -6,5 +6,13 @@ class CreateBranchPresenter(val branchType: String) {
             project: String,
             id: String,
             label: String
-    ) = "$branchType/$project-$id/$label"
+    ): String {
+        val extendLabel = if (label.isNotEmpty()) {
+            "/$label"
+        } else {
+            ""
+        }
+
+        return "$branchType/$project-$id$extendLabel"
+    }
 }

@@ -4,10 +4,14 @@ import git4idea.commands.*
 import git4idea.repo.GitRepository
 
 class ExtensionGitImpl : GitImpl(), ExtensionGit {
-    override fun checkoutNewBranch(repository: GitRepository,
-                          branchName: String,
-                          startPoint: String?,
-                          listener: GitLineHandlerListener?): GitCommandResult {
+
+    override fun checkoutNewBranch(
+            repository: GitRepository,
+            branchName: String,
+            startPoint: String?,
+            listener: GitLineHandlerListener?
+    ): GitCommandResult {
+
         val h = GitLineHandler(repository.project, repository.root, GitCommand.CHECKOUT.readLockingCommand())
         h.setSilent(false)
         h.setStdoutSuppressed(false)
@@ -26,4 +30,5 @@ class ExtensionGitImpl : GitImpl(), ExtensionGit {
 
         return runCommand(h)
     }
+
 }
